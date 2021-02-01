@@ -1,7 +1,7 @@
 <?php
-require_once('core/AbstractModel.php');
+require_once('Repository/TypeRepository.php');
 
-class Type extends AbstractModel
+class Type extends TypeRepository
 {
     protected string $tableName = 'type';
 
