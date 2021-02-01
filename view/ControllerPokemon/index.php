@@ -6,7 +6,7 @@
 
     <p>Une description</p>
 
-    <a href="/">Retour à la liste</a>
+    <a href="/pokedex/">Retour à la liste</a>
 
     <br>
     <br>

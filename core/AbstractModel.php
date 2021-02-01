@@ -1,6 +1,7 @@
 <?php
 
-abstract class AbstractModel{
+abstract class AbstractModel
+{
 
     protected static $bdd;
     protected string $tableName;
@@ -33,7 +34,7 @@ abstract class AbstractModel{
         if (self::$bdd === null) {
             // Création de la connexion
             self::$bdd = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD, [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
             ]);
         }
@@ -41,8 +42,10 @@ abstract class AbstractModel{
         return self::$bdd;
     }
 
-    public function findAll(string $columns = '*', string $inner = null, string $condition = null, string $groupBy = null, string $order = null, int $limit = null, int $offset = null) {
-        $sql = 'SELECT '.$columns.' FROM '.$this->tableName;
+    public function findAll(string $columns = '*', string $inner = null, string $condition = null,
+                            string $groupBy = null, string $order = null, int $limit = null, int $offset = null)
+    {
+        $sql = 'SELECT ' . $columns . ' FROM ' . $this->tableName;
 
         if (!empty($inner)) {
             $sql .= " $inner";
@@ -64,25 +67,21 @@ abstract class AbstractModel{
             $sql .= " LIMIT $limit OFFSET $offset";
         }
 
+        $sql .= ";";
+
         $query = self::createQuery($sql, get_class($this));
 
         return $query->fetchAll();
     }
 
-    /**
-     * Get one pokemon
-     *
-     * @param $id
-     *
-     * @return array
-     */
-    public function findOneById($id, string $columns = '*', string $inner = null) {
-        $sql = 'SELECT '.$columns.' FROM '.$this->tableName;
+    public function findOneById($id, string $columns = '*', string $inner = null)
+    {
+        $sql = 'SELECT ' . $columns . ' FROM ' . $this->tableName;
 
         if (!empty($inner)) {
             $sql .= " $inner";
         }
-        $sql .= " WHERE ".$this->tableName.".id=".$id;
+        $sql .= " WHERE " . $this->tableName . ".id=" . $id;
 
         $query = $this->createQuery($sql, get_class($this), [
             'id' => $id
@@ -91,28 +90,27 @@ abstract class AbstractModel{
         return $query->fetch();
     }
 
-    public function save($data){
-        if (empty($data["id"])){
-            $sql = 'INSERT INTO '.$this->tableName.' (';
+    public function save($data)
+    {
+        if (empty($data["id"])) {
+            $sql = 'INSERT INTO ' . $this->tableName . ' (';
             foreach ($data as $key => $value) {
-                $sql.= $key.',';
+                $sql .= $key . ',';
             }
             $sql = substr($sql, 0, -1);
             $sql .= ') VALUES (';
             foreach ($data as $key => $value) {
-                $sql.= '"'.$value.'",';
+                $sql .= '"' . $value . '",';
             }
             $sql = substr($sql, 0, -1);
             $sql .= ');';
-            //echo $sql;
         } else {
-            $sql = 'UPDATE ' .$this->tableName." SET ";
+            $sql = 'UPDATE ' . $this->tableName . " SET ";
             foreach ($data as $key => $value) {
-                $sql.= $key ."= '".$value."',";
+                $sql .= $key . "= '" . $value . "',";
             }
             $sql = substr($sql, 0, -1);
-            $sql.=" WHERE id= " .$data["id"].";";
-            //echo $sql;
+            $sql .= " WHERE id= " . $data["id"] . ";";
         }
 
         self::createQuery($sql, get_class($this));

@@ -16,9 +16,19 @@ class Request
         return $this->query;
     }
 
+    public function setQuery(array $query): void
+    {
+        $this->query = $query;
+    }
+
     public function getRequest()
     {
         return $this->request;
+    }
+
+    public function setRequest($request)
+    {
+        $this->request = $request;
     }
 
     public function get(string $param, $default = null)
@@ -32,7 +42,7 @@ class Request
         return $value;
     }
 
-    public function all()
+    public function all(): array
     {
         return array_merge($this->query, $this->request);
     }

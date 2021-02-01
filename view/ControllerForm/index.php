@@ -10,32 +10,28 @@
         <div class="py-3">
             <label for="types" class="pb-2">Types</label>
                 {% if(!is_null($arrayTypes)): %}
-                    {% foreach($arrayTypes as $pokemonType): %}
-                        {% $pokemonType %}
-                    {% endforeach; %}
-
-                    {% foreach($types as $type): %}
-                        {% if($type->getLabel()===$pokemonType): %}
+                    {% foreach($types as $item => $type): %}
+                        {% if(in_array($type->getLabel(), $arrayTypes)): %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
+                                    <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="CheckChecked{{ $item }}" checked>
+                                <label class="form-check-label" for="CheckChecked{{ $item }}">
                                     {{ $type->getLabel() }}
                                 </label>
                             </div>
                         {% else: %}
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="flexCheckChecked">
-                                <label class="form-check-label" for="flexCheckChecked">
+                                <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="CheckChecked{{ $item }}">
+                                <label class="form-check-label" for="CheckChecked{{ $item }}">
                                     {{ $type->getLabel() }}
                                 </label>
                             </div>
                         {% endif; %}
                     {% endforeach; %}
                 {% else: %}
-                    {% foreach($types as $type): %}
+                    {% foreach($types as $item => $type): %}
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
+                            <input class="form-check-input" type="checkbox" name="types[]" value="{{ $type->getId() }}" id="flexCheck{{ $item }}">
+                            <label class="form-check-label" for="flexCheck{{ $item }}">
                                 {{ $type->getLabel() }}
                             </label>
                         </div>

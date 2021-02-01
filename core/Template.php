@@ -11,8 +11,8 @@ class Template
         if (file_exists($path)){
             extract($data);
 
-            $contents = $this->includeFiles($path);
-            $contents = $this->compileCode($contents);
+            $contents = $this->include($path);
+            $contents = $this->compile($contents);
             $contents = eval(' ?>'.$contents);
 
             return $contents;
@@ -21,26 +21,26 @@ class Template
         }
     }
 
-    protected function compileCode($code) {
-        $code = $this->compilePHP($code);
-        $code = $this->compileEchos($code);
+    protected function compile($code) {
+        $code = $this->compileInstructions($code);
+        $code = $this->compileText($code);
 
         return $code;
     }
 
-    protected function compilePHP($code) {
+    protected function compileInstructions($code) {
         return preg_replace('~\{%\s*(.+?)\s*\%}~is', '<?php $1 ?>', $code);
     }
 
-    protected function compileEchos($code) {
+    protected function compileText($code) {
         return preg_replace('~\{{\s*(.+?)\s*\}}~is', '<?php echo $1 ?>', $code);
     }
 
-    protected function includeFiles($file) {
+    protected function include($file) {
         $code = file_get_contents($file);
         preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
         foreach ($matches as $value) {
-            $code = str_replace($value[0], self::includeFiles($value[2]), $code);
+            $code = str_replace($value[0], self::include($value[2]), $code);
         }
         $code = preg_replace('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', '', $code);
         return $code;

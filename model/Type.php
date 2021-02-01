@@ -9,10 +9,11 @@ class Type extends AbstractModel
 
     private string $label;
 
-    private string $pokemons;
+    private array $pokemons;
 
     public function __construct()
     {
+        $this->pokemons = [];
     }
 
     /**
@@ -50,17 +51,9 @@ class Type extends AbstractModel
     /**
      * @return string
      */
-    public function getPokemons(): string
+    public function getPokemons(): array
     {
         return $this->pokemons;
-    }
-
-    /**
-     * @param string $pokemon
-     */
-    public function setPokemons(string $pokemon): void
-    {
-        $this->pokemons = $pokemon;
     }
 
     public function __toString()

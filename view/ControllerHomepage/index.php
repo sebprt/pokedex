@@ -18,7 +18,7 @@
             {{ $pokemon->getId() }}
         </td>
         <td>
-            <a href="/pokemon/{{ $pokemon->getId() }}">
+            <a href="/pokedex/pokemon/{{ $pokemon->getId() }}">
                 {{ $pokemon }}
             </a>
         </td>
@@ -26,7 +26,7 @@
             {{ $pokemon->getTypes() }}
         </td>
         <td>
-            <a href="/form/{{ $pokemon->getId() }}">
+            <a href="/pokedex/form/{{ $pokemon->getId() }}">
                 Editer
             </a>
         </td>
